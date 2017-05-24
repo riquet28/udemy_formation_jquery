@@ -1,56 +1,46 @@
 $(document).ready(function(){
 
-	// alert("Hello World");
-	// console.log("test");
+	// $('#content p').text('Changement de texte !!!');
+	// $('#content p').html('<span> Je suis dans une span! </span>');
 
-	// $("#paragraphe").css('color', 'red');
-	// $("#paragraphe").text('texte de remplacement');
+	// $('#content p').text('<a href="#">Mon lien</a>');
+	// $('#content p').html('<a href="#">Mon lien</a>');
 
-	// $("#paragraphe").on('click', function(){
-	// 	$(this).css('font-weight', 'bold');
-	// });
+	// $('#content').after('Hello World');
 
-	// $('.article').each(function(){
-	// 	$(this).on('click', function(){
-	// 		// alert('ok!!!');
-	// 		$(this).css('color', 'blue');
-	// 		alert($(this).css('color'));
-	// 	});
-	// });
+	// $('#content').before('<a href="#">Mon lien</a>');
 
-	// $('#button').on('click', function(){
-	// 	$('.article').width(400).css('color', 'blue');
-	// });
+	// $('#content p').append('<a href="#">Mon lien</a>');
+	// $('#content p').prepend('<a href="#">Mon lien</a>');
 
 	/*
-	var paragraphe = $('#paragraphe'); article = $('.article');
-	button = $('#button');
-
-	$(paragraphe).on('click', function(){
-		$(this).css('font-weight', 'bold');
-	});
-
-	$(article).each(function(){
-		$(this).on('click', function(){
-			// alert('ok!!!');
-			$(this).css('color', 'blue');
-			alert($(this).css('color'));
-		});
-	});
-
-	$(button).on('click', function(){
-		$('.article').width(400).css('color', 'blue');
-	});
-
-	// $('p, div, span').css('color', 'blue');
-	$('*').css('font-weight', 'bold');
+	var url = $('a#lien').attr('href');
+	alert(url);
 	*/
 
+	// $('a#lien').attr('href', 'http://yahoo.com');
 
-	$('p').parent('#parent').css('color', 'blue');
+	// alert($('#content').hasClass('blue'));
+	// alert($('#lien').hasClass('link'));
 
-	$('#autre').children().css('color', 'red');
+	$('#vider').on('click', function(){
+		// $('#content').empty();
+		$('#content').remove();
+	});
 
-	$('#paraph').parent().css('color', '#999');
+	/*
+	$('#add').on('click', function(){
+		if(!$('#paraph').hasClass('article')){
+			$('#paraph').addClass('article');
+		}
+		else{
+			$('#paraph').removeClass('article');
+		}
+	});
+	*/
+
+	$('#add').on('click', function(){
+		$('#paraph').toggleClass('article');
+	});
 
 });
