@@ -1,56 +1,44 @@
 $(document).ready(function(){
 
-	// alert("Hello World");
-	// console.log("test");
-
-	// $("#paragraphe").css('color', 'red');
-	// $("#paragraphe").text('texte de remplacement');
-
-	// $("#paragraphe").on('click', function(){
-	// 	$(this).css('font-weight', 'bold');
-	// });
-
-	// $('.article').each(function(){
-	// 	$(this).on('click', function(){
-	// 		// alert('ok!!!');
-	// 		$(this).css('color', 'blue');
-	// 		alert($(this).css('color'));
-	// 	});
-	// });
-
-	// $('#button').on('click', function(){
-	// 	$('.article').width(400).css('color', 'blue');
-	// });
-
 	/*
-	var paragraphe = $('#paragraphe'); article = $('.article');
-	button = $('#button');
+	var article2 = $('#2');
+	offset = article2.offset();
 
-	$(paragraphe).on('click', function(){
-		$(this).css('font-weight', 'bold');
-	});
-
-	$(article).each(function(){
-		$(this).on('click', function(){
-			// alert('ok!!!');
-			$(this).css('color', 'blue');
-			alert($(this).css('color'));
-		});
-	});
-
-	$(button).on('click', function(){
-		$('.article').width(400).css('color', 'blue');
-	});
-
-	// $('p, div, span').css('color', 'blue');
-	$('*').css('font-weight', 'bold');
+	console.log(offset);
+	alert('Position : '+offset.top+'px du haut et '+offset.left+'px de la gauche');
 	*/
 
+	/*
+	var paragraphe = $('p:last');
+	offset = paragraphe.offset();
+	console.log(offset);
+	*/
 
-	$('p').parent('#parent').css('color', 'blue');
+	/*
+	var paragraphe = $('p:first');
+	offset = paragraphe.offset();
+	console.log(offset);
+	*/
 
-	$('#autre').children().css('color', 'red');
+	/*
+	var article1 = $('#1');
+	$(article1).on('click', function(){
+		$(this).offset({top: 1200, left: 100});
+	});
+	*/
 
-	$('#paraph').parent().css('color', '#999');
+	/*
+	var maDiv = $('#maDiv');
+	position = maDiv.position();
+	console.log(position);
+	*/
+
+	$('#top').on('click', function(){
+		//$(document).scrollTop(0);
+		var coord = $('#1').offset();
+		console.log(coord);
+		$(document).scrollTop(coord.top);
+	});
+
 
 });
