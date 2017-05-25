@@ -1,56 +1,17 @@
 $(document).ready(function(){
 
-	// alert("Hello World");
-	// console.log("test");
+	// $('tr:even').css('background', 'grey');
 
-	// $("#paragraphe").css('color', 'red');
-	// $("#paragraphe").text('texte de remplacement');
+	// $('tr:eq(2)').css('background', 'grey');
 
-	// $("#paragraphe").on('click', function(){
-	// 	$(this).css('font-weight', 'bold');
-	// });
+	// $('tr:first').css('background', 'grey');
 
-	// $('.article').each(function(){
-	// 	$(this).on('click', function(){
-	// 		// alert('ok!!!');
-	// 		$(this).css('color', 'blue');
-	// 		alert($(this).css('color'));
-	// 	});
-	// });
+	// $('tr:gt(2)').css('background', 'grey');
 
-	// $('#button').on('click', function(){
-	// 	$('.article').width(400).css('color', 'blue');
-	// });
+	// $(':header').css('color', 'red');
 
-	/*
-	var paragraphe = $('#paragraphe'); article = $('.article');
-	button = $('#button');
+	// $('tr:last').css('background', 'grey');
 
-	$(paragraphe).on('click', function(){
-		$(this).css('font-weight', 'bold');
-	});
-
-	$(article).each(function(){
-		$(this).on('click', function(){
-			// alert('ok!!!');
-			$(this).css('color', 'blue');
-			alert($(this).css('color'));
-		});
-	});
-
-	$(button).on('click', function(){
-		$('.article').width(400).css('color', 'blue');
-	});
-
-	// $('p, div, span').css('color', 'blue');
-	$('*').css('font-weight', 'bold');
-	*/
-
-
-	$('p').parent('#parent').css('color', 'blue');
-
-	$('#autre').children().css('color', 'red');
-
-	$('#paraph').parent().css('color', '#999');
+	$('tr:lt(2)').css('background', 'grey');
 
 });

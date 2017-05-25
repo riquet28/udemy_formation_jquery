@@ -11,7 +11,7 @@
 
     <style type="text/css">
       body{
-        padding-top: 50px;
+        padding-top: 100px;
       }
     </style>
 
@@ -37,7 +37,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Introduction</a>
+          <a class="navbar-brand" href="#">Sélecteurs tableaux</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <!-- <ul class="nav navbar-nav">
@@ -51,59 +51,34 @@
 
     <div class="container">
 
-      <!-- <p id="paragraphe">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      <h1>Titre</h1>
 
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-
-      <span>Hello</span>
-      <div>World</div>
-
-      <button class="btn btn-default" id="button">Change tout!</button> -->
-
-      <div id="parent">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
-
-      <div id="autre">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
-
-      <div id="third">
-        salut jQuery
-        <p id="paraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Jean</th>
+            <th>Dupont</th>
+            <th>Joho</th>
+          </tr>
+          <tr>
+            <th>Paul</th>
+            <th>Dubois</th>
+            <th>Polo</th>
+          </tr>
+          <tr>
+            <th>Robert</th>
+            <th>Dufour</th>
+            <th>Bebert</th>
+          </tr>
+        </tbody>
+      </table>
 
     </div>
 
