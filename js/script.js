@@ -1,56 +1,52 @@
 $(document).ready(function(){
 
-	// alert("Hello World");
-	// console.log("test");
-
-	// $("#paragraphe").css('color', 'red');
-	// $("#paragraphe").text('texte de remplacement');
-
-	// $("#paragraphe").on('click', function(){
-	// 	$(this).css('font-weight', 'bold');
-	// });
-
-	// $('.article').each(function(){
-	// 	$(this).on('click', function(){
-	// 		// alert('ok!!!');
-	// 		$(this).css('color', 'blue');
-	// 		alert($(this).css('color'));
-	// 	});
-	// });
-
-	// $('#button').on('click', function(){
-	// 	$('.article').width(400).css('color', 'blue');
-	// });
+	var article = $('#article');
+	cacher = $('#cacher'); afficher = $('#afficher');
 
 	/*
-	var paragraphe = $('#paragraphe'); article = $('.article');
-	button = $('#button');
-
-	$(paragraphe).on('click', function(){
-		$(this).css('font-weight', 'bold');
+	$(cacher).on('click', function(){
+		$(article).hide();
+		$(this).hide();
+		$(afficher).show();
 	});
 
-	$(article).each(function(){
-		$(this).on('click', function(){
-			// alert('ok!!!');
-			$(this).css('color', 'blue');
-			alert($(this).css('color'));
-		});
+	$(afficher).on('click', function(){
+		$(article).show();
+		$(this).hide();
+		$(cacher).show();
 	});
-
-	$(button).on('click', function(){
-		$('.article').width(400).css('color', 'blue');
-	});
-
-	// $('p, div, span').css('color', 'blue');
-	$('*').css('font-weight', 'bold');
 	*/
 
+	/*
+	$(cacher).on('click', function(){
+		$(article).fadeOut('slow');
+		$(this).hide();
+		$(afficher).show();
+	});
 
-	$('p').parent('#parent').css('color', 'blue');
+	$(afficher).on('click', function(){
+		$(article).fadeIn('fast');
+		$(this).hide();
+		$(cacher).show();
+	});
+	*/
 
-	$('#autre').children().css('color', 'red');
+	/*
+	$(cacher).on('click', function(){
+		$(article).slideUp('slow');
+		$(this).hide();
+		$(afficher).show();
+	});
 
-	$('#paraph').parent().css('color', '#999');
+	$(afficher).on('click', function(){
+		$(article).slideDown('fast');
+		$(this).hide();
+		$(cacher).show();
+	});
+	*/
+
+	$(cacher).on('click', function(){
+		$(article).slideToggle('fast');
+	});
 
 });
