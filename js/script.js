@@ -1,56 +1,38 @@
 $(document).ready(function(){
 
-	// alert("Hello World");
-	// console.log("test");
+	var form = $('#form'), comments = $('#comments');
 
-	// $("#paragraphe").css('color', 'red');
-	// $("#paragraphe").text('texte de remplacement');
+	$(form).on('submit', function(e){
+		e.preventDefault();
 
-	// $("#paragraphe").on('click', function(){
-	// 	$(this).css('font-weight', 'bold');
-	// });
+		$('.alert').remove();
 
-	// $('.article').each(function(){
-	// 	$(this).on('click', function(){
-	// 		// alert('ok!!!');
-	// 		$(this).css('color', 'blue');
-	// 		alert($(this).css('color'));
-	// 	});
-	// });
+		var data = $(this).serialize();
+		// alert(data);
+		url = $(this).attr('action');
 
-	// $('#button').on('click', function(){
-	// 	$('.article').width(400).css('color', 'blue');
-	// });
-
-	/*
-	var paragraphe = $('#paragraphe'); article = $('.article');
-	button = $('#button');
-
-	$(paragraphe).on('click', function(){
-		$(this).css('font-weight', 'bold');
-	});
-
-	$(article).each(function(){
-		$(this).on('click', function(){
-			// alert('ok!!!');
-			$(this).css('color', 'blue');
-			alert($(this).css('color'));
+		$.ajax({
+			type: 'POST',
+			url: url,
+			data: data,
+			dataType: 'json',
+			success: function(response){
+				if(response.errors){
+					// console.log(response); return false;
+					$(form).prepend('<div id="errors" class="alert alert-danger"></div>');
+					$.each(response.errors, function(index, value){
+						console.log(value);
+						$('<p>'+value+'</p>').appendTo('#errors');
+					});
+				}
+				else if(response.success){
+					console.log(response);
+					$(comments).prepend('<h4>'+response.pseudo+'</h4> <p>'+response.message+'</p>');
+					$(form).prepend('<div class="alert alert-success">'+response.success+'</div>');
+					$(form)[0].reset();
+				}
+			}
 		});
 	});
-
-	$(button).on('click', function(){
-		$('.article').width(400).css('color', 'blue');
-	});
-
-	// $('p, div, span').css('color', 'blue');
-	$('*').css('font-weight', 'bold');
-	*/
-
-
-	$('p').parent('#parent').css('color', 'blue');
-
-	$('#autre').children().css('color', 'red');
-
-	$('#paraph').parent().css('color', '#999');
 
 });

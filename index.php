@@ -1,3 +1,66 @@
+<?php
+
+function isAjax()
+{
+  return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+}
+
+$bdd = new PDO('mysql:host=localhost;dbname=udemy_ajax', 'root', 'root');
+$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+$bdd->exec('SET NAMES utf8');
+
+if(!empty($_POST))
+{
+  extract($_POST);
+  $pseudo = strip_tags($pseudo);
+  $email = strip_tags($email);
+  $message = strip_tags($message);
+
+  $errors = array();
+  if(empty($pseudo)){
+    array_push($errors, 'Indiquez votre pseudo');
+  }
+  if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+    array_push($errors, 'Indiquez un email valide');
+  }
+  if(empty($message)){
+    array_push($errors, 'Indiquez votre message');
+  }
+
+  if(count($errors) == 0)
+  {
+    $req = $bdd->prepare('INSERT INTO comments (pseudo, email, message) VALUES (:pseudo, :email, :message)');
+    $req->execute(array(':pseudo'=>$pseudo, ':email'=>$email, ':message'=>$message));
+    $req->closeCursor();
+
+    $success = 'Commentaire ajouté';
+
+    if(isAjax()){
+      $response = array(
+        'success'=>$success,
+        'pseudo'=>$pseudo,
+        'message'=>$message
+      );
+      echo json_encode($response);exit;
+    }
+
+    unset($pseudo, $email, $message);
+  }
+  else{
+    if(isAjax()){
+      $response = array('errors'=>$errors);
+      echo json_encode($response);exit;
+    }
+  }
+}
+
+$req = $bdd->prepare('SELECT * FROM comments ORDER BY id DESC');
+$req->execute();
+$comments = $req->fetchAll(PDO::FETCH_OBJ);
+$req->closeCursor();
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -11,7 +74,7 @@
 
     <style type="text/css">
       body{
-        padding-top: 50px;
+        padding-top: 100px;
       }
     </style>
 
@@ -37,7 +100,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Introduction</a>
+          <a class="navbar-brand" href="#">Formulaire AJAX</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <!-- <ul class="nav navbar-nav">
@@ -51,59 +114,49 @@
 
     <div class="container">
 
-      <!-- <p id="paragraphe">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      <video src="videos/video.mp4" type="video/mp4" controls width="480" height="360"></video>
 
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      <br>
+      <br>
 
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-
-      <span>Hello</span>
-      <div>World</div>
-
-      <button class="btn btn-default" id="button">Change tout!</button> -->
-
-      <div id="parent">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <div id="comments">
+        <?php if($comments):
+        foreach ($comments as $c):?>
+          <h4><?=$c->pseudo;?></h4>
+          <p><?=nl2br($c->message);?></p>
+        <?php endforeach; endif;?>
       </div>
 
-      <div id="autre">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
+      <br>
+      <br>
 
-      <div id="third">
-        salut jQuery
-        <p id="paraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
+      <?php
+      if(!empty($errors)):?>
+        <div class="alert alert-danger">
+          <?php foreach ($errors as $e):?>
+            <p><?=$e;?></p>
+          <?php endforeach;?>
+        </div>
+      <?endif;?>
+
+      <?php if(isset($success)):?>
+        <div class="alert alert-success">
+          <?=$success;?>
+        </div>
+      <?php endif;?>
+
+      <form id="form" action="index.php" method="post">
+        <input type="text" name="pseudo" value="<?=isset($pseudo) ? $pseudo : false;?>" id="pseudo" placeholder="Pseudo" class="form-control">
+        <br>
+        <br>
+        <input type="text" name="email" id="email" value="<?=isset($email) ? $email : false;?>" placeholder="Email" class="form-control">
+        <br>
+        <br>
+        <textarea name="message" id="message" placeholder="Message" class="form-control"><?=isset($message) ? $message : false;?></textarea>
+        <br>
+        <br>
+        <input type="submit" id="submit" class="btn btn-primary" value="Envoyer">
+      </form>
 
     </div>
 
