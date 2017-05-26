@@ -1,56 +1,30 @@
 $(document).ready(function(){
 
-	// alert("Hello World");
-	// console.log("test");
+	var nom = $('#nom'), couleur = $('#couleur'), form = $('#form'),
+	langage = $('input:checkbox');
 
-	// $("#paragraphe").css('color', 'red');
-	// $("#paragraphe").text('texte de remplacement');
+	$(form).on('submit', function(){
+		$('.alert').remove();
 
-	// $("#paragraphe").on('click', function(){
-	// 	$(this).css('font-weight', 'bold');
-	// });
+		if($(nom).val() == ''){
+			$(form).before('<div class="alert alert-danger">Indiquez votre nom</div>');
+			return false;
+		}
 
-	// $('.article').each(function(){
-	// 	$(this).on('click', function(){
-	// 		// alert('ok!!!');
-	// 		$(this).css('color', 'blue');
-	// 		alert($(this).css('color'));
-	// 	});
-	// });
+		if($(couleur).val() == 0){
+			$(form).before('<div class="alert alert-danger">Indiquez une couleur</div>');
+			return false;
+		}
 
-	// $('#button').on('click', function(){
-	// 	$('.article').width(400).css('color', 'blue');
-	// });
+		if(!$(langage).is(':checked')){
+			$(form).before('<div class="alert alert-danger">Indiquez un langage</div>');
+			return false;
+		}
 
-	/*
-	var paragraphe = $('#paragraphe'); article = $('.article');
-	button = $('#button');
-
-	$(paragraphe).on('click', function(){
-		$(this).css('font-weight', 'bold');
+		if($('input:radio:checked').length == 0){
+			$(form).before('<div class="alert alert-danger">Indiquez un langage</div>');
+			return false;
+		}
 	});
-
-	$(article).each(function(){
-		$(this).on('click', function(){
-			// alert('ok!!!');
-			$(this).css('color', 'blue');
-			alert($(this).css('color'));
-		});
-	});
-
-	$(button).on('click', function(){
-		$('.article').width(400).css('color', 'blue');
-	});
-
-	// $('p, div, span').css('color', 'blue');
-	$('*').css('font-weight', 'bold');
-	*/
-
-
-	$('p').parent('#parent').css('color', 'blue');
-
-	$('#autre').children().css('color', 'red');
-
-	$('#paraph').parent().css('color', '#999');
 
 });
