@@ -1,3 +1,24 @@
+<?php
+
+  if(!empty($_FILES)){
+    $file = $_FILES['file'];
+    $filename = $file['name'];
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $allowed = array('jpg', 'jpeg', 'png', 'mp4');
+    if(!in_array($ext, $allowed)){
+      $response = array('error'=>'Fichier non autorisé');
+      echo json_encode($response);exit;
+    }
+
+    $uploadfile = 'files/'.uniqid().'.'.$ext;
+    if(move_uploaded_file($file['tmp_name'], $uploadfile)){
+      $response = array('message' => 'Fichier enregistré');
+      echo json_encode($response);exit;
+    }
+  }
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -11,7 +32,7 @@
 
     <style type="text/css">
       body{
-        padding-top: 50px;
+        padding-top: 100px;
       }
     </style>
 
@@ -37,7 +58,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Introduction</a>
+          <a class="navbar-brand" href="#">Upload en ajax</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <!-- <ul class="nav navbar-nav">
@@ -51,58 +72,20 @@
 
     <div class="container">
 
-      <!-- <p id="paragraphe">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      <div id="upload">
+        <form action="index.php" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" id="file">
+          <br>
+          <br>
+          <input type="submit" class="btn btn-primary" value="Upload">
+        </form>
+        <br>
+        <br>
+        <div class="progress" id="progress" style="display:none;">
+          <div class="progress-bar" id="progressbar" role="progressbar">
 
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-
-      <span>Hello</span>
-      <div>World</div>
-
-      <button class="btn btn-default" id="button">Change tout!</button> -->
-
-      <div id="parent">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
-
-      <div id="autre">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
-
-      <div id="third">
-        salut jQuery
-        <p id="paraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+        </div>
       </div>
 
     </div>

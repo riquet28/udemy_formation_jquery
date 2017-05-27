@@ -1,56 +1,44 @@
 $(document).ready(function(){
 
-	// alert("Hello World");
-	// console.log("test");
+	var progressbar = $('#progressbar'), progress = $('#progress');
 
-	// $("#paragraphe").css('color', 'red');
-	// $("#paragraphe").text('texte de remplacement');
+	$('form').submit(function(e){
+		e.preventDefault();
 
-	// $("#paragraphe").on('click', function(){
-	// 	$(this).css('font-weight', 'bold');
-	// });
+		$('.alert, label').remove();
 
-	// $('.article').each(function(){
-	// 	$(this).on('click', function(){
-	// 		// alert('ok!!!');
-	// 		$(this).css('color', 'blue');
-	// 		alert($(this).css('color'));
-	// 	});
-	// });
+		$(progress).show();
+		var fd = new FormData(this);
 
-	// $('#button').on('click', function(){
-	// 	$('.article').width(400).css('color', 'blue');
-	// });
+		$.ajax({
+			url: $(this).attr('action'),
+			xhr: function(){
+				var xhr = new XMLHttpRequest();
+				var total = document.getElementById('file').files[0].size;
 
-	/*
-	var paragraphe = $('#paragraphe'); article = $('.article');
-	button = $('#button');
-
-	$(paragraphe).on('click', function(){
-		$(this).css('font-weight', 'bold');
-	});
-
-	$(article).each(function(){
-		$(this).on('click', function(){
-			// alert('ok!!!');
-			$(this).css('color', 'blue');
-			alert($(this).css('color'));
+				xhr.upload.addEventListener('progress', function(e){
+					var loaded = Math.round((e.loaded / total) * 100);
+					$(progressbar).text(loaded + '%').width(loaded+'%');
+				});
+				return xhr;
+			},
+			type: 'post',
+			processData: false,
+			contentType: false,
+			data: fd,
+			dataType: 'json',
+			success: function(response){
+				if(response.message){
+					// console.log(response.message);
+					$('#upload').prepend('<div class="alert alert-success">'+response.message+'</div>');
+					$(progress).fadeOut();
+				}
+				else{
+					$('#file').after('<span class="label label-danger">'+response.error+'</span>');
+					$(progress).hide();
+				}
+			}
 		});
 	});
-
-	$(button).on('click', function(){
-		$('.article').width(400).css('color', 'blue');
-	});
-
-	// $('p, div, span').css('color', 'blue');
-	$('*').css('font-weight', 'bold');
-	*/
-
-
-	$('p').parent('#parent').css('color', 'blue');
-
-	$('#autre').children().css('color', 'red');
-
-	$('#paraph').parent().css('color', '#999');
 
 });
