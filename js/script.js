@@ -1,56 +1,22 @@
 $(document).ready(function(){
 
-	// alert("Hello World");
-	// console.log("test");
+	var link = $('a'); description = $('#description');
 
-	// $("#paragraphe").css('color', 'red');
-	// $("#paragraphe").text('texte de remplacement');
-
-	// $("#paragraphe").on('click', function(){
-	// 	$(this).css('font-weight', 'bold');
-	// });
-
-	// $('.article').each(function(){
-	// 	$(this).on('click', function(){
-	// 		// alert('ok!!!');
-	// 		$(this).css('color', 'blue');
-	// 		alert($(this).css('color'));
-	// 	});
-	// });
-
-	// $('#button').on('click', function(){
-	// 	$('.article').width(400).css('color', 'blue');
-	// });
-
-	/*
-	var paragraphe = $('#paragraphe'); article = $('.article');
-	button = $('#button');
-
-	$(paragraphe).on('click', function(){
-		$(this).css('font-weight', 'bold');
-	});
-
-	$(article).each(function(){
-		$(this).on('click', function(){
-			// alert('ok!!!');
-			$(this).css('color', 'blue');
-			alert($(this).css('color'));
+	 	$(link).each(function(e){
+			$(this).on('click', function(e){
+				e.preventDefault();
+				$(link).not(this).parent('li').removeClass('active');
+				$(this).parent('li').addClass('active');
+				var url = $(this).attr('href');
+				$.ajax({
+					type: 'GET',
+					url: url,
+					dataType: 'json',
+				}).done(function(response){
+					console.log(response);
+					$(description).hide().text(response.content).fadeIn('slow');
+				});
+			});
 		});
-	});
-
-	$(button).on('click', function(){
-		$('.article').width(400).css('color', 'blue');
-	});
-
-	// $('p, div, span').css('color', 'blue');
-	$('*').css('font-weight', 'bold');
-	*/
-
-
-	$('p').parent('#parent').css('color', 'blue');
-
-	$('#autre').children().css('color', 'red');
-
-	$('#paraph').parent().css('color', '#999');
 
 });
