@@ -1,3 +1,31 @@
+<?php
+
+  require('db.php');
+
+  if(!empty($_POST['task'])){
+    $task = strip_tags($_POST['task']);
+    if($task != ''){
+      $req = $bdd->prepare('INSERT INTO tasks (name) VALUES (:name)');
+      $req->execute(array(':name'=>$task));
+      $id = $bdd->lastInsertId();
+      $req->closeCursor();
+
+      $response = array(
+        'success'=>true,
+        'task'=>$task,
+        'id'=>$id
+      );
+      echo json_encode($response);exit;
+    }
+  }
+
+  $req = $bdd->prepare('SELECT * FROM tasks ORDER BY id DESC');
+  $req->execute();
+  $tasks = $req->fetchAll(PDO::FETCH_OBJ);
+  $req->closeCursor();
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -11,7 +39,7 @@
 
     <style type="text/css">
       body{
-        padding-top: 50px;
+        padding-top: 100px;
       }
     </style>
 
@@ -37,7 +65,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Introduction</a>
+          <a class="navbar-brand" href="#">Todolist en AJAX</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <!-- <ul class="nav navbar-nav">
@@ -51,59 +79,35 @@
 
     <div class="container">
 
-      <!-- <p id="paragraphe">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      <form id="form" action="index.php" method="post">
+        <input type="text" name="task" id="task" placeholder="Tache" class="form-control">
+        <input type="submit" class="btn btn-success" value="Ajouter">
+      </form>
 
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      <br>
+      <br>
 
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
+      <form id="deleteForm" action="delete.php" method="post">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Tache</th>
+              <th><input type="checkbox" id="checkAll"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if($tasks):
+            foreach($tasks as $t):?>
+              <tr id="<?=$t->id;?>">
+                <td class="tache"><?=$t->name;?></td>
+                <td><input type="checkbox" id="<?=$t->id;?>" class="del" name="tasks[]" value="<?=$t->id;?>"></td>
+              </tr>
+            <?endforeach; endif;?>
+          </tbody>
+        </table>
 
-      <p class="article">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-        in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-
-      <span>Hello</span>
-      <div>World</div>
-
-      <button class="btn btn-default" id="button">Change tout!</button> -->
-
-      <div id="parent">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
-
-      <div id="autre">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
-
-      <div id="third">
-        salut jQuery
-        <p id="paraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
+        <button id="button" class="btn btn-danger">Supprimer les taches</button>
+      </form>
 
     </div>
 

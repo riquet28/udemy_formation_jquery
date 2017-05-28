@@ -1,56 +1,78 @@
 $(document).ready(function(){
 
-	// alert("Hello World");
-	// console.log("test");
+	var tache = $('.tache'), form = $('#form');
+	checkAll = $('#checkAll'), del = $('.del'), deleteForm = $('#deleteForm');
 
-	// $("#paragraphe").css('color', 'red');
-	// $("#paragraphe").text('texte de remplacement');
-
-	// $("#paragraphe").on('click', function(){
-	// 	$(this).css('font-weight', 'bold');
-	// });
-
-	// $('.article').each(function(){
-	// 	$(this).on('click', function(){
-	// 		// alert('ok!!!');
-	// 		$(this).css('color', 'blue');
-	// 		alert($(this).css('color'));
-	// 	});
-	// });
-
-	// $('#button').on('click', function(){
-	// 	$('.article').width(400).css('color', 'blue');
-	// });
-
-	/*
-	var paragraphe = $('#paragraphe'); article = $('.article');
-	button = $('#button');
-
-	$(paragraphe).on('click', function(){
-		$(this).css('font-weight', 'bold');
+	$(checkAll).on('click', function(){
+		if(this.checked){
+			$(del).each(function(){
+				this.checked = true;
+			});
+		}
+		else{
+			$(del).each(function(){
+				this.checked = false;
+			})
+		}
 	});
 
-	$(article).each(function(){
-		$(this).on('click', function(){
-			// alert('ok!!!');
-			$(this).css('color', 'blue');
-			alert($(this).css('color'));
+	$(deleteForm).on('submit', function(e){
+		e.preventDefault();
+		$('.alert').remove();
+		var data = $(this).serialize();
+		$.ajax({
+			type: 'post',
+			url: $(this).attr('action'),
+			data: data,
+			dataType: 'json',
+			success: function(response){
+				if(response.success){
+					$('input:checked').parent().parent().fadeOut();
+					$(deleteForm).before('<div class="alert alert-danger">'+response.message+'</div>');
+				}
+			}
 		});
 	});
 
-	$(button).on('click', function(){
-		$('.article').width(400).css('color', 'blue');
+	$(tache).each(function(){
+		$(this).on('click', function(){
+			$(this).attr('contenteditable', true);
+		});
+		$(this).on('blur', function(){
+			$(this).removeAttr('contenteditable');
+			var task = $(this).text();
+			id = $(this).closest('tr').attr('id');
+			$.ajax({
+				type: 'post',
+				url: 'update.php',
+				data: {id: id, task: task},
+				dataType: 'json',
+				success: function(response){
+					if(response.success){
+						console.log('updated');
+					}
+				}
+			})
+		});
 	});
 
-	// $('p, div, span').css('color', 'blue');
-	$('*').css('font-weight', 'bold');
-	*/
-
-
-	$('p').parent('#parent').css('color', 'blue');
-
-	$('#autre').children().css('color', 'red');
-
-	$('#paraph').parent().css('color', '#999');
+	$(form).on("submit", function(e){
+		e.preventDefault();
+		var data = $(this).serialize();
+		url = $(this).attr('action');
+		$.ajax({
+			type: 'post',
+			url: url,
+			data: data,
+			dataType: 'json',
+			success: function(response){
+				console.log(response);
+				if(response.success){
+					$('tbody').prepend('<tr id="'+response.id+'"><td class="tache">'+response.task+'</td><td><input type="checkbox" id="'+response.id+'" class="del" name="task[]" value="'+response.id+'"></td></tr>');
+					$('#task').val('');
+				}
+			}
+		});
+	});
 
 });
